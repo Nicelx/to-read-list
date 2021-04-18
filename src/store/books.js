@@ -1,16 +1,25 @@
-import { makeObservable, observable,action } from "mobx";
+import { makeObservable, observable, action } from "mobx";
 
-export class BooksState {
-	constructor (){
+class BooksState {
+	selectedBookId = 0;
+	isLoading = false;
+	isLoaded = false;
+	constructor() {
 		makeObservable(this, {
-			loading: observable,
+			isLoading: observable,
+			isLoaded: observable,
 			books: observable,
-			updateBooks : action,
-		})
+			selectedBookId: observable,
+			updateBooks: action,
+			setLoading: action,
+		});
 	}
-	loading = false;
 	books = [];
-	updateBooks = (data)=> {
+	updateBooks = (data) => {
 		this.books = data;
-	}
+	};
+	setLoading = (v) => (this.isLoading = v);
+	setLoaded = (v) => (this.isLoaded = v);
 }
+
+export const booksState = new BooksState();
