@@ -1,52 +1,67 @@
 import React, { useEffect, useState } from "react";
-import "./ToReadListLeft.css";
 import { observer } from "mobx-react-lite";
-import { normalizeKey } from "./../../utils/utils";
+import { normalizeBooks, getPagesUrl } from "./../../utils/utils";
 import { Spinner } from "./../../UI/Spinner/Spinner";
 import { BookItem } from "./../BookItem/BookItem";
+import { ReactComponent as SearchIcon } from '../../icons/search.svg';
+import "./ToReadListLeft.css";
 
 export const ToReadListLeft = observer(({ booksState }) => {
 	const {
-		isLoaded,
-		isLoading,
 		books,
 		selectedBookId,
+		setSelectedBookId,
 		updateBooks,
-		setLoading,
-		setLoaded,
 	} = booksState;
-	const [test, setTest] = useState([]);
+	
+	const [isLoading, setLoading] = useState(false);
+	const [isLoaded, setLoaded] = useState(false);
 
-	const getCoversUrl = (isbn) => `http://covers.openlibrary.org/b/isbn/${isbn}-S.jpg`;
-	const getPagesUrl = (query, page = "1") =>
-		`https://openlibrary.org/search.json?q=${query}&page=${page}`;
 
 	const getBooks = () => {
 		setLoading(true);
 		fetch(getPagesUrl("Remarque", "1"))
 			.then((response) => response.json())
 			.then((data) => {
-				updateBooks(data.docs);
-				setTest(data.docs);
+				console.log(data.docs)
+				updateBooks(normalizeBooks(data.docs));
 				setLoaded(true);
 				setLoading(false);
 			});
 	};
 
-	console.log(test);
+	const onBookSelect = idx => () => setSelectedBookId(idx)
+	console.log(books);
 	useEffect(getBooks, []);
 	return (
 		<div className="left-container">
 			<header className="search">
-				<input className="search__input" type="text" placeholder="any book author" />
-				{isLoading ? <Spinner /> : <button className="search__button">Go</button>}
-				{/* <img src={getCoversUrl('0451526538')} /> */}
+				<input className="search__input mr-10" type="text" placeholder="any book author" />
+				
+				{isLoading ? <Spinner /> : <button className="search__button"><SearchIcon/></button>}
 			</header>
-			<section>
+
+			<section className = 'book-list'>
 				{isLoaded &&
-					books.map((book) => <BookItem book={book} key={normalizeKey(book.key)} />)}
+					books.map((book, idx) => (
+						<BookItem
+							onClick = {onBookSelect(idx)}
+							isSelected={idx === selectedBookId}
+							book={book}
+							key={book.id}
+						/>
+					))}
 			</section>
-			<footer></footer>
+
+			<footer className = 'pagination'>
+				<div>
+					<span className = 'pagination__top'>Found: xxx  Start: xxx  Page size: xxx</span>	
+				</div>
+				<div className = 'pagination__buttons'>
+					<button className = 'pagination__button pagination__button--left'>Prev</button>
+					<button className = 'pagination__button pagination__button--right'>Next </button>
+				</div>
+			</footer>
 		</div>
 	);
 });

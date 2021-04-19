@@ -1,0 +1,29 @@
+.book-info {
+	flex: 2 1 200px;
+	border: 2px solid var(--primary);
+	margin: 0 -2px;
+	padding: 20px;
+}
+
+.book-info__title {
+	font-size: 2rem;
+	margin-bottom: 5px;
+}
+.book-info__subtitle {
+	font-size: 1.2rem;
+	color: var(--gray);
+	margin-bottom: 30px;
+}
+
+.book-info__content {
+	line-height: 30px;
+	margin-bottom: 20px;
+}
+.book-info__add-button {
+	background-color: var(--white);
+	width: 200px;
+	height: 48px;
+	border: 1px solid var(--primary);
+	border-bottom: 3px solid var(--primary);
+	border-radius: 8px;
+}

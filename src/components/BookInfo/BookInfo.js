@@ -1,30 +1,37 @@
-import React from 'react';
-import './BookInfo.css'
+import React from "react";
+import { observer } from "mobx-react-lite";
+import "./BookInfo.css";
 
-export const BookInfo = () => {
-	const mock = {
-		title : 'title',
-		subtitle: 'subtitle',
-		langs : 'ger,rus,eng',
-		firstYearPublished: '1930',
-		fullText: 'yes',
+export const BookInfo = observer(({ booksState }) => {
+	const selectedBook = booksState.books[booksState.selectedBookId]
+	if (!selectedBook) return <></>
+	const {
+		id,
+		title ,
+		subtitle,
+		language,
+		firstPublishYear,
+		isFullTextAvailable,
+		publishYear,
+	} = selectedBook;
+	
+	const addBookHandler = () => {
+		localStorage.setItem(`${id}`, JSON.stringify(selectedBook));
 	}
-	const {title, subtitle,langs,firstYearPublished,fullText, yearsPublished} = mock
-
-	return (
-		<section>
-			<div>
-				<h1>{title}</h1>
-				<h2>{subtitle}</h2>
-			</div>
-
-			<p>
-				Languages available: {langs}
-				Full text available: {fullText}
-				First publish year: {firstYearPublished} 
-				Years published: {yearsPublished}
-			</p>
-			<button>add book to Read List</button>
-		</section>
-	);
-};
+	if (title)
+		return (
+			<section className="book-info">
+				<div className="book-info__header">
+					<h1 className="book-info__title">{title}</h1>
+					<h2 className="book-info__subtitle">{subtitle}</h2>
+				</div>
+				<p className="book-info__content">
+					Languages available: {language || 'unknown'}<br/>
+					Full text available: {isFullTextAvailable} <br/>
+					First publish year: {firstPublishYear} <br/>
+					Years published: {publishYear}
+				</p>
+				<button className="book-info__add-button" onClick = {addBookHandler}>add book</button>
+			</section>
+		);
+});

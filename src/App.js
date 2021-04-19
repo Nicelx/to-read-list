@@ -1,6 +1,7 @@
 import "./App.css";
 import { BookInfo } from "./components/BookInfo/BookInfo";
 import { ToReadListLeft } from './components/ToReadListLeft/ToReadListLeft';
+import { ToReadListRight } from "./components/ToReadListRight/ToReadListRight";
 import {booksState} from './store/books';
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
 	return (
 		<div className="app-container">
 			<ToReadListLeft booksState = {booksState}/>
-			<BookInfo selectedBook = {booksState.books[selectedBookId]}/>
+			<BookInfo booksState = {booksState}/>
+			<ToReadListRight/>
 		</div>
 	);
 }

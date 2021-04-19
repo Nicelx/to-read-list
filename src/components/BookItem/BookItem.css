@@ -1,0 +1,19 @@
+.book-item {
+	padding: 20px;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 80px;
+	border: 1px solid #000;
+	margin:-1px 0;
+}
+.book-item--selected {
+	border-bottom: 3px solid black;
+}
+.book-item__title {
+	font-size: 1.25rem;
+	margin-bottom: 10px;
+}
+.book-item__subtitle {
+	font-size: 0.9rem;
+	color: var(--gray)
+}
