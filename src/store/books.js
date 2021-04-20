@@ -1,26 +1,40 @@
-import { makeObservable, observable, action } from "mobx";
-import { checkPrefix } from "../utils/utils";
+import { makeObservable, observable, action,computed } from "mobx";
+import { loadFromLocalStorage } from './../utils/utils';
 
 class BooksState {
 	selectedBookId = 0;
 	constructor() {
 		makeObservable(this, {
 			books: observable,
-			storageBooks: observable,
 			selectedBookId: observable,
+			storageBooks: observable,
 			updateBooks: action,
+			setSelectedBookId: action,
+			updateStorageBooks : action,
+			numBooks : computed,
+			numIsReadBooks : computed
 		});
 	}
 	books = [];
-	storageBooks = Object.keys(localStorage)
-		.filter((item) => checkPrefix(item))
-		.map((item) => JSON.parse(localStorage.getItem(item)));
+	
+	storageBooks = loadFromLocalStorage()
+	
+	updateStorageBooks = () => {
+		this.storageBooks = loadFromLocalStorage();
+	} 
 
-	pushBookToStorage = (book) => this.storageBooks.push(book);
-	updateBooks = (data) => {
-		this.books = data;
-	};
+	updateBooks = (data) => (this.books = data);
+
 	setSelectedBookId = (id) => (this.selectedBookId = id);
+
+	get numBooks() {
+		return this.storageBooks.length;
+	} 
+	get numIsReadBooks() {
+		return this.storageBooks.filter(item => item.isRead).length;
+	}
+
+
 }
 
 export const booksState = new BooksState();

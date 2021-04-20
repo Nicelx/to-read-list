@@ -1,10 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from './../../UI/Button/Button';
+import {setLocalStorage} from '../../utils/utils'
 import "./BookInfo.css";
 
 export const BookInfo = observer(({ booksState }) => {
-	const {books, pushBookToStorage, selectedBookId} = booksState
+	const {books,updateStorageBooks, selectedBookId} = booksState
 	const selectedBook = books[selectedBookId]
 	if (!selectedBook) return <section className="book-info">
 		<h1 className="book-info__title">Book doesn't selected</h1>
@@ -21,8 +22,8 @@ export const BookInfo = observer(({ booksState }) => {
 	
 	const addBookHandler = () => {
 		if (localStorage[id]) return
-		localStorage.setItem(`${id}`, JSON.stringify(selectedBook));
-		pushBookToStorage(selectedBook)
+		setLocalStorage(id, selectedBook);
+		updateStorageBooks();
 	}
 	if (title)
 		return (

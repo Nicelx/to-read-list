@@ -2,7 +2,7 @@ const boolIntoYesOrNo = (bool) => (bool ? "yes" : "no");
 
 const normalizeKey = (key) => `ToReadList-${key.split("/").pop()}`;
 
-export const checkPrefix = (key) => /ToReadList-/.test(key)
+export const checkPrefix = (key) => /ToReadList-/.test(key);
 
 export const normalizeBooks = (docs) =>
 	docs.map((book) => {
@@ -24,8 +24,13 @@ export const normalizeBooks = (docs) =>
 		normalizeBooks.isFullTextAvailable = boolIntoYesOrNo(has_fulltext);
 		normalizeBooks.author = author_name || "no Author";
 		normalizeBooks.id = normalizeKey(key);
+		normalizeBooks.isRead = false;
 		normalizeBooks.publishYear = publish_year ? publish_year.join(", ") : "unknown";
-		normalizeBooks.firstPublishYear = first_publish_year ? first_publish_year : publish_year ? publish_year[0] : 'unknown'
+		normalizeBooks.firstPublishYear = first_publish_year
+			? first_publish_year
+			: publish_year
+			? publish_year[0]
+			: "unknown";
 
 		return normalizeBooks;
 	});
@@ -35,3 +40,31 @@ export const getPagesUrl = (query, page = "1") =>
 
 export const getCoversUrl = (isbn) => `http://covers.openlibrary.org/b/isbn/${isbn}-S.jpg`;
 
+export const readLocalStorage = (key) => {
+	if (typeof key === 'string') return JSON.parse(localStorage.getItem(key)) 
+	else console.error('key not found')
+}
+
+export const setLocalStorage = (key, value) => {
+	if (typeof key !== 'string') return
+	if (typeof value === 'object') localStorage.setItem(key, JSON.stringify(value)) 
+	if (typeof value === 'string') localStorage.setItem(key, value);
+}
+
+const noReadFirsSorting = (a,b) => {
+	if (a.isRead < b.isRead) return -1
+	if (a.isRead > b.isRead) return 1
+	return 0 
+}
+export const loadFromLocalStorage = () =>
+	Object.keys(localStorage)
+		.filter(checkPrefix)
+		.map(readLocalStorage)
+		.sort(noReadFirsSorting)
+
+
+export const markAsRead = (id) => {
+	const book = readLocalStorage(id) 
+	book.isRead = true
+	setLocalStorage(id, book)
+}

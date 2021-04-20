@@ -1,20 +1,25 @@
 import React from 'react';
 import './BookItem.css'
 import { Button } from './../../UI/Button/Button';
+import { booksState } from './../../store/books';
+import { markAsRead } from './../../utils/utils';
 
 
-
-export const BookItemStoraged = props => {
-	const {book, isRead} = props
-	const { id, title, subtitle, author} = book;
+export const BookItemStoraged = (({book}) => {
+	const { id, title, subtitle, author,isRead} = book;
 	const language = book.language ? `(${book.language})` : ''
 	let bookItemClass = "book-item book-item--storaged"
 	
 	if (isRead) bookItemClass += ' book-item--read';
 
-	const markAsRead = () => {
-		const book = localStorage.getItem(id)
-		console.log(book)
+	const markAsReadHandler = () => {
+		markAsRead(id)
+		booksState.updateStorageBooks();
+	}
+
+	const removeBookHandler = () => {
+		localStorage.removeItem(id)
+		booksState.updateStorageBooks();
 	}
 
 	return (
@@ -23,11 +28,10 @@ export const BookItemStoraged = props => {
 			<p className = 'book-item__subtitle'>{subtitle}</p>
 			<p className = 'book-item__author'>{author}</p>
 			<div>
-				<Button onClick = {markAsRead}className = 'book-item__button book-item__left-button'>Mark as Read</Button>
-				<Button className = 'book-item__button book-item__right-button'>Remove from List</Button>
+				<Button onClick = {markAsReadHandler}className = 'book-item__button book-item__left-button'>Mark as Read</Button>
+				<Button onClick = {removeBookHandler}className = 'book-item__button book-item__right-button'>Remove from List</Button>
 			</div>
-			<span className = 'book-item__badge'>Read</span>
 			{isRead && <span className = 'book-item__badge'>Read</span>}
 		</div>
 	);
-};
+});
