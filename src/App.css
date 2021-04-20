@@ -3,10 +3,15 @@
 	--white: white;
 	--gray: #cdcdcd;
 }
+body {
+	box-sizing: border-box;
+}
 .app-container {
 	display: flex;
+	flex-wrap: wrap;
 	box-sizing: border-box;
-	margin: 10px auto;
+	margin: 0 auto;
+	padding: 5px;
 	max-width: 1440px;
 	font-family: 'Roboto Mono', monospace;
 	font-size: 16px;

@@ -1,3 +1,17 @@
 .right-container {
-	flex: 1 1 250px;
+	flex: 1 2 200px;
+	border: 2px solid var(--primary);
+}
+.storaged-books {
+	height: calc(100vh - 100px);
+	overflow-y: scroll;
+}
+.to-read {
+	height: 80px;
+	border-bottom: 1px solid var(--primary);
+	padding-left: 20px;
+}
+.to-read__title {
+	font-size: 2rem;
+	padding: 10px 0;
 }

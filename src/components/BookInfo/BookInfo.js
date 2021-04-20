@@ -1,10 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { Button } from './../../UI/Button/Button';
 import "./BookInfo.css";
 
 export const BookInfo = observer(({ booksState }) => {
-	const selectedBook = booksState.books[booksState.selectedBookId]
-	if (!selectedBook) return <></>
+	const {books, pushBookToStorage, selectedBookId} = booksState
+	const selectedBook = books[selectedBookId]
+	if (!selectedBook) return <section className="book-info">
+		<h1 className="book-info__title">Book doesn't selected</h1>
+	</section>
 	const {
 		id,
 		title ,
@@ -16,7 +20,9 @@ export const BookInfo = observer(({ booksState }) => {
 	} = selectedBook;
 	
 	const addBookHandler = () => {
+		if (localStorage[id]) return
 		localStorage.setItem(`${id}`, JSON.stringify(selectedBook));
+		pushBookToStorage(selectedBook)
 	}
 	if (title)
 		return (
@@ -31,7 +37,9 @@ export const BookInfo = observer(({ booksState }) => {
 					First publish year: {firstPublishYear} <br/>
 					Years published: {publishYear}
 				</p>
-				<button className="book-info__add-button" onClick = {addBookHandler}>add book</button>
+				<Button onClick = {addBookHandler}>
+					add book
+				</Button>
 			</section>
 		);
 });

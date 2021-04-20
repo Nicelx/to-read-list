@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { normalizeBooks, getPagesUrl } from "./../../utils/utils";
 import { Spinner } from "./../../UI/Spinner/Spinner";
 import { BookItem } from "./../BookItem/BookItem";
+import { Button } from './../../UI/Button/Button';
 import { ReactComponent as SearchIcon } from '../../icons/search.svg';
 import "./ToReadListLeft.css";
 
@@ -31,14 +32,15 @@ export const ToReadListLeft = observer(({ booksState }) => {
 	};
 
 	const onBookSelect = idx => () => setSelectedBookId(idx)
-	console.log(books);
+	// eslint-disable-next-line
 	useEffect(getBooks, []);
 	return (
 		<div className="left-container">
 			<header className="search">
 				<input className="search__input mr-10" type="text" placeholder="any book author" />
 				
-				{isLoading ? <Spinner /> : <button className="search__button"><SearchIcon/></button>}
+				{/* {isLoading ? <Spinner /> : <button className="search__button"><SearchIcon/></button>} */}
+				{isLoading ? <Spinner /> : <Button className = 'search__button'><SearchIcon/></Button>}
 			</header>
 
 			<section className = 'book-list'>
@@ -58,8 +60,8 @@ export const ToReadListLeft = observer(({ booksState }) => {
 					<span className = 'pagination__top'>Found: xxx  Start: xxx  Page size: xxx</span>	
 				</div>
 				<div className = 'pagination__buttons'>
-					<button className = 'pagination__button pagination__button--left'>Prev</button>
-					<button className = 'pagination__button pagination__button--right'>Next </button>
+					<Button className = 'pagination__button--left'>Prev</Button>
+					<Button className = 'pagination__button--right'>Next </Button>
 				</div>
 			</footer>
 		</div>

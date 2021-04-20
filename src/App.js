@@ -5,12 +5,12 @@ import { ToReadListRight } from "./components/ToReadListRight/ToReadListRight";
 import {booksState} from './store/books';
 
 function App() {
-	const {selectedBookId} = booksState
+	// const {selectedBookId} = booksState
 	return (
 		<div className="app-container">
 			<ToReadListLeft booksState = {booksState}/>
 			<BookInfo booksState = {booksState}/>
-			<ToReadListRight/>
+			<ToReadListRight booksState = {booksState}/>
 		</div>
 	);
 }

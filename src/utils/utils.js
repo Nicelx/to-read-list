@@ -1,5 +1,8 @@
+const boolIntoYesOrNo = (bool) => (bool ? "yes" : "no");
+
 const normalizeKey = (key) => `ToReadList-${key.split("/").pop()}`;
 
+export const checkPrefix = (key) => /ToReadList-/.test(key)
 
 export const normalizeBooks = (docs) =>
 	docs.map((book) => {
@@ -24,10 +27,6 @@ export const normalizeBooks = (docs) =>
 		normalizeBooks.publishYear = publish_year ? publish_year.join(", ") : "unknown";
 		normalizeBooks.firstPublishYear = first_publish_year ? first_publish_year : publish_year ? publish_year[0] : 'unknown'
 
-		// if (first_publish_year) normalizeBooks.firstPublishYear = first_publish_year
-		// else {
-		// 	normalizeBooks.firstPublishYear = publish_year ? publish_year[0] : 'unknown'
-		// }
 		return normalizeBooks;
 	});
 
@@ -36,4 +35,3 @@ export const getPagesUrl = (query, page = "1") =>
 
 export const getCoversUrl = (isbn) => `http://covers.openlibrary.org/b/isbn/${isbn}-S.jpg`;
 
-const boolIntoYesOrNo = (bool) => (bool ? "yes" : "no");

@@ -1,7 +1,8 @@
 .book-item {
-	padding: 20px;
+	position: relative;
+	padding: 30px 30px 15px 20px;
+	/* padding-right: 30px; */
 	box-sizing: border-box;
-	width: 100%;
 	min-height: 80px;
 	border: 1px solid #000;
 	margin:-1px 0;
@@ -15,5 +16,38 @@
 }
 .book-item__subtitle {
 	font-size: 0.9rem;
-	color: var(--gray)
+	color: var(--gray);
+	margin-bottom: 8px;
+}
+.book-item__author {
+	margin-bottom: 8px;
+}
+.book-item__button {
+	font-size: 0.75rem;
+	padding:0;
+	width: 140px;
+	height: 32px;
+	border-bottom: 2px solid var(--primary);
+}
+.book-item__left-button {
+	border-radius: 4px 0 0 4px;
+}
+.book-item__right-button {
+	border-radius: 0 4px 4px 0;
+	margin-left: -1px;
+}
+.book-item__badge {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 55px;
+	height: 24px;
+	/* background-color: var(--primary);
+	color: var(--white); */
+
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border: 1px solid var(--primary);
+	border-radius: 8px;
 }
