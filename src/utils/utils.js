@@ -35,11 +35,6 @@ export const normalizeBooks = (docs) =>
 		return normalizeBooks;
 	});
 
-export const getPagesUrl = (query, page = "1") =>
-	`https://openlibrary.org/search.json?q=${query}&page=${page}`;
-
-export const getCoversUrl = (isbn) => `http://covers.openlibrary.org/b/isbn/${isbn}-S.jpg`;
-
 export const readLocalStorage = (key) => {
 	if (typeof key === 'string') return JSON.parse(localStorage.getItem(key)) 
 	else console.error('key not found')

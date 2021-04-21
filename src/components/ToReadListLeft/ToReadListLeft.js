@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { normalizeBooks, getPagesUrl } from "./../../utils/utils";
+import { normalizeBooks  } from "./../../utils/utils";
+import {  fetchBooks,debounce } from "./../../utils/api";
 import { Spinner } from "./../../UI/Spinner/Spinner";
 import { BookItem } from "./../BookItem/BookItem";
 import { Button } from './../../UI/Button/Button';
@@ -15,32 +16,39 @@ export const ToReadListLeft = observer(({ booksState }) => {
 		updateBooks,
 	} = booksState;
 	
+	const [page, setPage] = useState(1);
+	const [inputValue, setInputValue] = useState('')
 	const [isLoading, setLoading] = useState(false);
 	const [isLoaded, setLoaded] = useState(false);
 
 
 	const getBooks = () => {
+		if (inputValue === '') return
 		setLoading(true);
-		fetch(getPagesUrl("Remarque", "1"))
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data.docs)
-				updateBooks(normalizeBooks(data.docs));
-				setLoaded(true);
-				setLoading(false);
-			});
+		fetchBooks(inputValue, page).then(data => {
+			updateBooks(normalizeBooks(data.docs));
+			setLoaded(true);
+			setLoading(false);
+		})
 	};
-
+	
 	const onBookSelect = idx => () => setSelectedBookId(idx)
+
+	const onInputChangeHandler = (e) => setInputValue(e.target.value)
+
+	const onFetchBookHandler = () => getBooks()
+
+	const debounceRef = useRef(debounce())
 	// eslint-disable-next-line
-	useEffect(getBooks, []);
+	useEffect(() => debounceRef.current(getBooks), [inputValue])
+	
+
 	return (
 		<div className="left-container">
 			<header className="search">
-				<input className="search__input mr-10" type="text" placeholder="any book author" />
+				<input onKeyDown = {onInputChangeHandler}className="search__input mr-10" type="text" placeholder="any book author" />
 				
-				{/* {isLoading ? <Spinner /> : <button className="search__button"><SearchIcon/></button>} */}
-				{isLoading ? <Spinner /> : <Button className = 'search__button'><SearchIcon/></Button>}
+				{isLoading ? <Spinner /> : <Button onClick = {onFetchBookHandler}className = 'search__button'><SearchIcon/></Button>}
 			</header>
 
 			<section className = 'book-list'>
