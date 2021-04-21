@@ -22,7 +22,6 @@ export const debounce =  () => {
 		clearTimeout(timeout);
 		const run = () => {
 			timeout = null;
-			alert('in run')
 			f();
 		}
 		timeout = setTimeout(run, 1500)
