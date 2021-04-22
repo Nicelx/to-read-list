@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { normalizeBooks  } from "./../../utils/utils";
 import {  fetchBooks,debounce } from "./../../utils/api";
@@ -38,9 +38,7 @@ export const ToReadListLeft = observer(({ booksState }) => {
 
 	const onFetchBookHandler = () => getBooks()
 
-	const debounceRef = useRef(debounce())
-	// eslint-disable-next-line
-	useEffect(() => debounceRef.current(getBooks), [inputValue])
+	useEffect(() => debounce(getBooks), [inputValue])
 	
 
 	return (

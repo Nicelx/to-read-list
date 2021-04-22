@@ -16,7 +16,7 @@ export const fetchBooks = async (query, page = "1") => {
 	}
 };
 
-export const debounce =  () => {
+const debounceTimeout =  (time) => {
 	let timeout;
 	return (f) => {
 		clearTimeout(timeout);
@@ -24,7 +24,8 @@ export const debounce =  () => {
 			timeout = null;
 			f();
 		}
-		timeout = setTimeout(run, 1500)
+		timeout = setTimeout(run, time)
 
 	};
 }
+export const debounce = debounceTimeout(1500);
