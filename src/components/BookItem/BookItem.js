@@ -1,7 +1,7 @@
 import React from "react";
 import './BookItem.css'
 
-export const BookItem = (props) => {
+export const BookItem = React.forwardRef((props,ref) => {
 	const {book, isSelected} = props
 	const { id, title, subtitle} = book;
 	const language = book.language ? `(${book.language})` : ''
@@ -9,10 +9,10 @@ export const BookItem = (props) => {
 
 
 	return (
-		<div className={bookItemClass} onClick={props.onClick} id={id}>
+		<div ref = {ref} className={bookItemClass} onClick={props.onClick} id={id}>
 			<p className = 'book-item__title'>{`${title} ${language}`}</p>
 			<span className = 'book-item__subtitle'>{subtitle}</span>
 			{isSelected && <span className = 'book-item__badge'>Pick</span>}
 		</div>
 	);
-};
+});

@@ -1,14 +1,15 @@
 .right-container {
 	flex: 1 2 200px;
-	border: 2px solid var(--primary);
+	border:var(--border-2px)
 }
 .storaged-books {
 	height: calc(100vh - 100px);
-	overflow-y: scroll;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .to-read {
 	height: 80px;
-	border-bottom: 1px solid var(--primary);
+	border-bottom: var(--border);
 	padding-left: 20px;
 }
 .to-read__title {

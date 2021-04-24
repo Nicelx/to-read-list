@@ -13,7 +13,12 @@ export const BookItemStoraged = (({book}) => {
 	if (isRead) bookItemClass += ' book-item--read';
 
 	const markAsReadHandler = () => {
-		markAsRead(id)
+		markAsRead(id, true)
+		booksState.updateStorageBooks();
+	}
+
+	const unmarkRead = () => {
+		markAsRead(id, false);
 		booksState.updateStorageBooks();
 	}
 
@@ -28,7 +33,8 @@ export const BookItemStoraged = (({book}) => {
 			<p className = 'book-item__subtitle'>{subtitle}</p>
 			<p className = 'book-item__author'>{author}</p>
 			<div>
-				<Button onClick = {markAsReadHandler}className = 'book-item__button book-item__left-button'>Mark as Read</Button>
+				{!isRead && <Button onClick = {markAsReadHandler}className = 'book-item__button book-item__left-button'>Mark as Read</Button> }
+				{isRead && <Button onClick = {unmarkRead}className = 'book-item__button book-item__left-button'>Unmark</Button>}
 				<Button onClick = {removeBookHandler}className = 'book-item__button book-item__right-button'>Remove from List</Button>
 			</div>
 			{isRead && <span className = 'book-item__badge'>Read</span>}

@@ -23,7 +23,7 @@ class BooksState {
 		this.storageBooks = loadFromLocalStorage();
 	} 
 
-	updateBooks = (data) => (this.books = data);
+	updateBooks = (data) => this.books = data;
 
 	setSelectedBookId = (id) => (this.selectedBookId = id);
 

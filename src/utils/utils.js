@@ -58,8 +58,8 @@ export const loadFromLocalStorage = () =>
 		.sort(noReadFirsSorting)
 
 
-export const markAsRead = (id) => {
+export const markAsRead = (id, bool) => {
 	const book = readLocalStorage(id) 
-	book.isRead = true
+	book.isRead = bool
 	setLocalStorage(id, book)
 }

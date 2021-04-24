@@ -1,14 +1,14 @@
 .book-item {
 	position: relative;
 	padding: 30px 10px 15px 20px;
-	/* padding-right: 30px; */
-	box-sizing: border-box;
-	min-height: 80px;
-	border: 1px solid #000;
-	margin:-1px 0;
+	border: var(--border);
+	cursor: default;
+	margin: -1px -1px -1px -1px;
+	
 }
 .book-item--selected {
-	border-bottom: 3px solid black;
+	border-bottom: var(--border-3px);
+	margin-bottom: -3px;
 }
 .book-item__title {
 	font-size: 1.25rem;
@@ -22,12 +22,25 @@
 .book-item__author {
 	margin-bottom: 8px;
 }
+.book-item__badge {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 55px;
+	height: 24px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border: var(--border);
+	border-radius: 8px;
+}
+
 .book-item__button {
 	font-size: 0.75rem;
 	padding:0;
 	width: 140px;
 	height: 32px;
-	border-bottom: 2px solid var(--primary);
+	border-bottom: var(--border-2px);
 }
 .book-item__left-button {
 	border-radius: 4px 0 0 4px;
@@ -35,19 +48,4 @@
 .book-item__right-button {
 	border-radius: 0 4px 4px 0;
 	margin-left: -1px;
-}
-.book-item__badge {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 55px;
-	height: 24px;
-	/* background-color: var(--primary);
-	color: var(--white); */
-
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	border: 1px solid var(--primary);
-	border-radius: 8px;
 }

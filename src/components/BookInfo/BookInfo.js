@@ -21,7 +21,9 @@ export const BookInfo = observer(({ booksState }) => {
 	} = selectedBook;
 	
 	const addBookHandler = () => {
-		if (localStorage[id]) return
+		if (localStorage[id]) {
+			return
+		}
 		setLocalStorage(id, selectedBook);
 		updateStorageBooks();
 	}

@@ -13,6 +13,7 @@ export const ToReadListLeft = observer(({ booksState }) => {
 
 	const [page, setPage] = useState(1);
 	const [inputValue, setInputValue] = useState("");
+	const [found, setFound] = useState(101);
 	const [isLoading, setLoading] = useState(false);
 	const [isLoaded, setLoaded] = useState(false);
 
@@ -20,44 +21,42 @@ export const ToReadListLeft = observer(({ booksState }) => {
 		if (inputValue === "") return;
 		setLoading(true);
 		fetchBooks(inputValue, page).then((data) => {
-			updateBooks(normalizeBooks(data.docs));
+			if (page === 1) {
+				setFound(data.numFound);
+				updateBooks(normalizeBooks(data.docs));
+			} else updateBooks([...books, ...normalizeBooks(data.docs)]);
 			setLoaded(true);
 			setLoading(false);
 		});
+		console.log(books)
 	};
 
 	const onBookSelect = (idx) => () => setSelectedBookId(idx);
 
-	const onInputChangeHandler = (e) => setInputValue(e.target.value);
+	const onInputChangeHandler = (e) => {
+		setInputValue(e.target.value);
+		setPage(1);
+	};
 
 	const onFetchBookHandler = () => getBooks();
 
 	const intersectionObserver = useRef();
-	const target = useRef();
 
-	const handleScroll = () => {
-		alert('haha')
-	}
+	const lastBookElementRef = useCallback(
+		(node) => {
+			if (isLoading) return;
+			if (intersectionObserver.current) intersectionObserver.current.disconnect();
 
-	// intersectionObserver.current = new IntersectionObserver(handleScroll);
-	// console.log(target)
-	// if (target) intersectionObserver.current.observe(target.current)
-
-	
-	const lastBookElementRef = useCallback((node) => {
-			// if (loading) return
-			// if (observer.current) observer.current.disconnect()
 			intersectionObserver.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting) {
-					setPage((prevPage) => prevPage + 1);
-					alert("hi");
+				if (entries[0].isIntersecting && page * 100 < found) {
+					setPage((prev) => prev + 1);
+					getBooks();
 				}
 			});
-			setPage((prevPage) => prevPage + 1);
-			alert("hi");
-			// if (node) intersectionObserver.current.observe(node)
-			observer.current.observe(node);
-		}, []);
+			if (node) intersectionObserver.current.observe(node);
+		},
+		[page,isLoading]
+	);
 
 	useEffect(() => debounce(getBooks), [inputValue]);
 
@@ -83,7 +82,8 @@ export const ToReadListLeft = observer(({ booksState }) => {
 			<section className="book-list">
 				{isLoaded &&
 					books.map((book, idx) => {
-						if (books.length === idx) return (
+						if (books.length === idx + 1)
+							return (
 								<BookItem
 									onClick={onBookSelect(idx)}
 									isSelected={idx === selectedBookId}
@@ -101,9 +101,10 @@ export const ToReadListLeft = observer(({ booksState }) => {
 							/>
 						);
 					})}
+					{!isLoaded && <BookItem book = {{title : 'find them!'}}/>}
 			</section>
 
-			<footer className="pagination">
+			{/* <footer className="pagination">
 				<div>
 					<span className="pagination__top">Found: xxx Start: xxx Page size: xxx</span>
 				</div>
@@ -111,7 +112,7 @@ export const ToReadListLeft = observer(({ booksState }) => {
 					<Button className="pagination__button--left">Prev</Button>
 					<Button className="pagination__button--right">Next </Button>
 				</div>
-			</footer>
+			</footer> */}
 		</div>
 	);
 });

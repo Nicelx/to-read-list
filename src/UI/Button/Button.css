@@ -2,8 +2,8 @@
 	background-color: var(--white);
 	width: 200px;
 	height: 48px;
-	border: 1px solid var(--primary);
-	border-bottom: 3px solid var(--primary);
+	border: var(--border);
+	border-bottom: var(--border-3px);
 	border-radius: 8px;
 }
 

@@ -2,6 +2,10 @@
 	--primary: black;
 	--white: white;
 	--gray: #cdcdcd;
+
+	--border: 1px solid var(--primary);
+	--border-2px: 2px solid var(--primary);
+	--border-3px: 3px solid var(--primary);
 }
 body {
 	box-sizing: border-box;
@@ -23,6 +27,21 @@ input,button {
 .mr-10 {
 	margin-right: 10px;
 }
-/* ::-webkit-scrollbar {
-	width: 20px;
-  } */
+::-webkit-scrollbar {
+	position: absolute;
+	width: 14px;
+	height: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+	background: var(--white);
+	border-top: var(--border-2px);
+	border-bottom: var(--border-2px);
+	border-left: var(--border-2px);
+	height: 80px;
+  }
+
+  ::-webkit-scrollbar-track {
+	background: var(--white);
+	border-left: var(--border);
+  }

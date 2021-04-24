@@ -6,6 +6,7 @@ export const getCoversUrl = (isbn) => `http://covers.openlibrary.org/b/isbn/${is
 
 export const fetchBooks = async (query, page = "1") => {
 	try {
+		console.log(query, page)
 		const response = await fetch(getPagesUrl(query, page));
 		if (!response.ok) {
 			throw new Error(response.status);
