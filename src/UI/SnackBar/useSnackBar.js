@@ -1,14 +1,15 @@
-  
+import React from 'react'
 import { useContext } from 'react'
-import { SnackbarContext, defaultDuration} from './Snackbar'
+import { SnackbarContext} from './SnackBar'
 
 // Custom hook to trigger the snackbar on function components
-export const useSnackbar = () => {
+export const useSnackBar = () => {
   const { openSnackbar, closeSnackbar } = useContext(SnackbarContext)
 
 
-  function open(text = '', duration = defaultDuration) {
-    openSnackbar(text, duration, position, style, closeStyle)
+  function open(text = '') {
+    openSnackbar(text)
+    setTimeout(closeSnackbar, 1000)
   }
 
   // Returns methods in hooks array way

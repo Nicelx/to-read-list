@@ -1,17 +1,17 @@
 import "./App.css";
 import { BookInfo } from "./components/BookInfo/BookInfo";
-import { ToReadListLeft } from './components/ToReadListLeft/ToReadListLeft';
-import { ToReadListRight } from "./components/ToReadListRight/ToReadListRight";
+import { BookList } from './components/BookList/BookList';
+import { ToReadList } from "./components/ToReadList/ToReadList";
 import {booksState} from './store/books';
-// import {SnackBar} from './UI/SnackBar/SnackBar';
+import {SnackBar} from './UI/SnackBar/SnackBar';
 
 function App() {
 	return (
 		<div className="app-container">
-			<ToReadListLeft booksState = {booksState}/>
-			{/* <SnackBar><BookInfo booksState = {booksState}/></SnackBar> */}
-			<BookInfo booksState = {booksState}/>
-			<ToReadListRight booksState = {booksState}/>
+			<BookList booksState = {booksState}/>
+			<SnackBar><BookInfo booksState = {booksState}/></SnackBar>
+			{/* <BookInfo booksState = {booksState}/> */}
+			<ToReadList booksState = {booksState}/>
 		</div>
 	);
 }

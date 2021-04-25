@@ -2,6 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from './../../UI/Button/Button';
 import {setLocalStorage} from '../../utils/utils'
+import {useSnackBar} from '../../UI/SnackBar/useSnackBar'
 import "./BookInfo.css";
 
 export const BookInfo = observer(({ booksState }) => {
@@ -19,9 +20,12 @@ export const BookInfo = observer(({ booksState }) => {
 		isFullTextAvailable,
 		publishYear,
 	} = selectedBook;
+
+	const [open]= useSnackBar();
 	
 	const addBookHandler = () => {
 		if (localStorage[id]) {
+			open('Book has been already added');
 			return
 		}
 		setLocalStorage(id, selectedBook);

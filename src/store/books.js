@@ -33,8 +33,6 @@ class BooksState {
 	get numIsReadBooks() {
 		return this.storageBooks.filter(item => item.isRead).length;
 	}
-
-
 }
 
 export const booksState = new BooksState();

@@ -1,7 +1,23 @@
 .snack-bar {
-	position: absolute;
-	transform: translate(-50%, -50%);
-	width: 500px;
-	height: 500px;	
-	background-color: red;
+	position: fixed;
+	transform: translateY(-50%);
+	top: 100px;
+	left: 50%;
+	width: 300px;
+	height: 100px;	
+	padding: 20px 0px 10px 30px;
+	background-color: var(--white);
+	border: var(--border-2px);
+	animation:  1s ease-in forwards showUp ;
+}
+
+@keyframes showUp {
+	from {top: 50px;
+	opacity: 1;}
+	to {top: 200px;
+	opacity: 0;}
+}
+
+.snack-bar__text {
+	font-size: 1.75rem;
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { BookItemStoraged } from "../BookItem/BookItemStoraged";
-import './ToReadListRight.css'
+import './ToReadList.css'
 
-export const ToReadListRight = observer(({ booksState }) => {
+export const ToReadList = observer(({ booksState }) => {
 	const {storageBooks, numIsReadBooks, numBooks} = booksState
 
 	return (

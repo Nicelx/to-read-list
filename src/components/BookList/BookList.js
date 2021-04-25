@@ -6,9 +6,9 @@ import { Spinner } from "./../../UI/Spinner/Spinner";
 import { BookItem } from "./../BookItem/BookItem";
 import { Button } from "./../../UI/Button/Button";
 import { ReactComponent as SearchIcon } from "../../icons/search.svg";
-import "./ToReadListLeft.css";
+import "./BookList.css";
 
-export const ToReadListLeft = observer(({ booksState }) => {
+export const BookList = observer(({ booksState }) => {
 	const { books, selectedBookId, setSelectedBookId, updateBooks } = booksState;
 
 	const [page, setPage] = useState(1);
@@ -28,14 +28,13 @@ export const ToReadListLeft = observer(({ booksState }) => {
 			setLoaded(true);
 			setLoading(false);
 		});
-		console.log(books)
 	};
 
 	const onBookSelect = (idx) => () => setSelectedBookId(idx);
 
 	const onInputChangeHandler = (e) => {
 		setInputValue(e.target.value);
-		setPage(1);
+		if (page !== 1) setPage(1);
 	};
 
 	const onFetchBookHandler = () => getBooks();
