@@ -27,6 +27,13 @@ input,button {
 .mr-10 {
 	margin-right: 10px;
 }
+
+@media(max-width : 960px) {
+	.app-container {
+		flex-direction: column;
+		max-width: 400px;
+	}
+}
 ::-webkit-scrollbar {
 	position: absolute;
 	width: 14px;

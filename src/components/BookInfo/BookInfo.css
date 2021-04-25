@@ -19,3 +19,10 @@
 	line-height: 30px;
 	margin-bottom: 20px;
 }
+
+@media(max-width : 960px) {
+	.book-info {
+		flex-direction: column;
+		margin: -2px 0;
+	}
+}
