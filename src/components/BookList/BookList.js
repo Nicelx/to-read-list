@@ -1,34 +1,22 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { observer } from "mobx-react-lite";
-import { normalizeBooks } from "./../../utils/utils";
-import { fetchBooks, debounce } from "./../../utils/api";
-import { Spinner } from "./../../UI/Spinner/Spinner";
-import { BookItem } from "./../BookItem/BookItem";
+
 import { Button } from "./../../UI/Button/Button";
+import { BookItem } from "./../BookItem/BookItem";
+import { Spinner } from "./../../UI/Spinner/Spinner";
+import { useFetchBooks } from "./../../hooks/useFetchBooks";
+
+import { debounce } from "./../../utils/utils";
 import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import "./BookList.css";
 
 export const BookList = observer(({ booksState }) => {
-	const { books, selectedBookId, setSelectedBookId, updateBooks } = booksState;
+	const { books, selectedBookId, setSelectedBookId } = booksState;
 
 	const [page, setPage] = useState(1);
 	const [inputValue, setInputValue] = useState("");
-	const [found, setFound] = useState(101);
-	const [isLoading, setLoading] = useState(false);
-	const [isLoaded, setLoaded] = useState(false);
 
-	const getBooks = () => {
-		if (inputValue === "") return;
-		setLoading(true);
-		fetchBooks(inputValue, page).then((data) => {
-			if (page === 1) {
-				setFound(data.numFound);
-				updateBooks(normalizeBooks(data.docs));
-			} else updateBooks([...books, ...normalizeBooks(data.docs)]);
-			setLoaded(true);
-			setLoading(false);
-		});
-	};
+	const { isLoading, isError, isLoaded, fetchBooks, found } = useFetchBooks(inputValue, page);
 
 	const onBookSelect = (idx) => () => setSelectedBookId(idx);
 
@@ -37,7 +25,7 @@ export const BookList = observer(({ booksState }) => {
 		if (page !== 1) setPage(1);
 	};
 
-	const onFetchBookHandler = () => getBooks();
+	const onFetchBookHandler = () => fetchBooks(inputValue, page);
 
 	const intersectionObserver = useRef();
 
@@ -49,22 +37,22 @@ export const BookList = observer(({ booksState }) => {
 			intersectionObserver.current = new IntersectionObserver((entries) => {
 				if (entries[0].isIntersecting && page * 100 < found) {
 					setPage((prev) => prev + 1);
-					getBooks();
+					fetchBooks(inputValue, page);
 				}
 			});
 			if (node) intersectionObserver.current.observe(node);
 		},
-		[page,isLoading]
+		[isLoading, page]
 	);
 
-	useEffect(() => debounce(getBooks), [inputValue]);
+	useEffect(() => debounce(() => fetchBooks(inputValue, page)), [inputValue]);
 
 	return (
 		<div className="left-container">
 			<header className="search">
 				<input
-					onKeyDown={onInputChangeHandler}
-					className="search__input mr-10"
+					onKeyUp={onInputChangeHandler}
+					className="search__input"
 					type="text"
 					placeholder="any book author"
 				/>
@@ -100,18 +88,19 @@ export const BookList = observer(({ booksState }) => {
 							/>
 						);
 					})}
-					{!isLoaded && <BookItem book = {{title : 'find them!'}}/>}
+				{!isLoaded && <BookItem book={{ title: "find them!" }} />}
+				{isError && <BookItem book={{ title: "something wrong with request" }} />}
 			</section>
 
-			{/* <footer className="pagination">
+			<footer className="pagination">
 				<div>
-					<span className="pagination__top">Found: xxx Start: xxx Page size: xxx</span>
+					<span className="pagination__top">Found: {found}</span>
 				</div>
-				<div className="pagination__buttons">
+				{/* <div className="pagination__buttons">
 					<Button className="pagination__button--left">Prev</Button>
 					<Button className="pagination__button--right">Next </Button>
-				</div>
-			</footer> */}
+				</div> */}
+			</footer>
 		</div>
 	);
 });

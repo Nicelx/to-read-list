@@ -8,6 +8,9 @@ import "./BookInfo.css";
 export const BookInfo = observer(({ booksState }) => {
 	const {books,updateStorageBooks, selectedBookId} = booksState
 	const selectedBook = books[selectedBookId]
+
+	const [open]= useSnackBar();
+	
 	if (!selectedBook) return <section className="book-info">
 		<h1 className="book-info__title">Book doesn't selected</h1>
 	</section>
@@ -21,7 +24,7 @@ export const BookInfo = observer(({ booksState }) => {
 		publishYear,
 	} = selectedBook;
 
-	const [open]= useSnackBar();
+	
 	
 	const addBookHandler = () => {
 		if (localStorage[id]) {

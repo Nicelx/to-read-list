@@ -12,7 +12,7 @@ class BooksState {
 			setSelectedBookId: action,
 			updateStorageBooks : action,
 			numBooks : computed,
-			numIsReadBooks : computed
+			numIsReadBooks : computed,
 		});
 	}
 	books = [];

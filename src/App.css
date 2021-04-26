@@ -24,9 +24,7 @@ input,button {
 	box-sizing: border-box;
 	font: inherit;
 }
-.mr-10 {
-	margin-right: 10px;
-}
+
 
 @media(max-width : 960px) {
 	.app-container {

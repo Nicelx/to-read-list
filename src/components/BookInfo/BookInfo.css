@@ -1,8 +1,10 @@
 .book-info {
 	flex: 2 1 200px;
 	border: 2px solid var(--primary);
+	max-height: calc(100vh - 56px);
 	margin: 0 -2px;
 	padding: 20px;
+	overflow-y: auto;
 }
 
 .book-info__title {
