@@ -16,28 +16,30 @@ export const BookList = observer(({ booksState }) => {
 	const [page, setPage] = useState(1);
 	const [inputValue, setInputValue] = useState("");
 
-	const { isLoading, isError, isLoaded, fetchBooks, found } = useFetchBooks(inputValue, page);
+	const { isLoading, isError, isLoaded, fetchBooks, found} = useFetchBooks(inputValue, page);
 
 	const onBookSelect = (idx) => () => setSelectedBookId(idx);
 
 	const onInputChangeHandler = (e) => {
 		setInputValue(e.target.value);
 		if (page !== 1) setPage(1);
+		
 	};
 
 	const onFetchBookHandler = () => fetchBooks(inputValue, page);
 
 	const intersectionObserver = useRef();
 
+
 	const lastBookElementRef = useCallback(
 		(node) => {
 			if (isLoading) return;
 			if (intersectionObserver.current) intersectionObserver.current.disconnect();
 
-			intersectionObserver.current = new IntersectionObserver((entries) => {
+			intersectionObserver.current = new IntersectionObserver(async(entries) => {
 				if (entries[0].isIntersecting && page * 100 < found) {
+					await fetchBooks(inputValue, page+1);
 					setPage((prev) => prev + 1);
-					fetchBooks(inputValue, page);
 				}
 			});
 			if (node) intersectionObserver.current.observe(node);
@@ -45,6 +47,7 @@ export const BookList = observer(({ booksState }) => {
 		[isLoading, page]
 	);
 
+	console.log(page)
 	useEffect(() => debounce(() => fetchBooks(inputValue, page)), [inputValue]);
 
 	return (
