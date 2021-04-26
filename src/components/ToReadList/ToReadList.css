@@ -16,3 +16,11 @@
 	font-size: 2rem;
 	padding: 10px 0;
 }
+
+@media(max-width : 960px) {
+	.storaged-books {
+		height: auto ;
+		overflow-y: visible;
+		padding: 5px;
+	}
+}

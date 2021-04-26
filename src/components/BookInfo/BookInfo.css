@@ -25,6 +25,8 @@
 @media(max-width : 960px) {
 	.book-info {
 		flex-direction: column;
-		margin: -2px 0;
+		margin: 0;
+		max-height:none;
+		overflow-y: visible;
 	}
 }

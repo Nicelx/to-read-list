@@ -30,12 +30,12 @@ input,button {
 	.app-container {
 		flex-direction: column;
 		max-width: 400px;
+		gap: 20px;
 	}
 }
 ::-webkit-scrollbar {
 	position: absolute;
 	width: 14px;
-	height: 20px;
   }
 
   ::-webkit-scrollbar-thumb {

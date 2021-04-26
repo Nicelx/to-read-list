@@ -47,7 +47,6 @@ export const BookList = observer(({ booksState }) => {
 		[isLoading, page]
 	);
 
-	console.log(page)
 	useEffect(() => debounce(() => fetchBooks(inputValue, page)), [inputValue]);
 
 	return (
